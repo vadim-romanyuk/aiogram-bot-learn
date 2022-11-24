@@ -4,7 +4,7 @@ from environs import Env
 
 
 @dataclass
-class DbConfig:
+class DbConfig:  # база данных
     host: str
     password: str
     user: str
@@ -12,7 +12,7 @@ class DbConfig:
 
 
 @dataclass
-class TgBot:
+class TgBot:  # управление ботом
     token: str
     admin_ids: list[int]
     use_redis: bool
