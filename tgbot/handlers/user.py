@@ -4,6 +4,12 @@ from aiogram import Dispatcher
 from aiogram.dispatcher.filters import CommandStart
 from aiogram.types import Message
 
+from tgbot.filters.private_chat import IsPrivate
+
+
+async def user_filter(message: Message):
+    await message.reply("It's filter private")
+
 
 async def user_start(message: Message):
     await message.reply("Hello, user!")
@@ -20,7 +26,7 @@ async def user_settings(message: Message):
 
 
 def register_user(dp: Dispatcher):
+    dp.register_message_handler(user_filter, IsPrivate(), text='123', state="*")
     dp.register_message_handler(user_start, commands=["start"], state="*")
     dp.register_message_handler(user_help, commands=["help"], state="*")
     dp.register_message_handler(user_settings, CommandStart(deep_link=re.compile(r'\d\d\d')))
-
