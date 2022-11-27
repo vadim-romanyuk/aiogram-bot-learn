@@ -48,3 +48,7 @@ def load_config(path: str = None):
         ),
         misc=Miscellaneous()
     )
+
+
+banned_users = [123456789, 987654321]
+

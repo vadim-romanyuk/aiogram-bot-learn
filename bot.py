@@ -13,12 +13,14 @@ from tgbot.handlers.echo import register_echo
 from tgbot.handlers.user import register_user
 from tgbot.handlers.testing import register_testing
 from tgbot.middlewares.environment import EnvironmentMiddleware
+from tgbot.middlewares.big_brother import BigBrother
 
 logger = logging.getLogger(__name__)
 
 
 def register_all_middlewares(dp, config):
     dp.setup_middleware(EnvironmentMiddleware(config=config))
+    dp.setup_middleware(BigBrother())
 
 
 def register_all_filters(dp):
