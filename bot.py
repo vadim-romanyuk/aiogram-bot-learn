@@ -14,6 +14,7 @@ from tgbot.handlers.user import register_user
 from tgbot.handlers.testing import register_testing
 from tgbot.middlewares.environment import EnvironmentMiddleware
 from tgbot.middlewares.big_brother import BigBrother
+from tgbot.middlewares.thottling import ThrotlingMiddleware
 
 logger = logging.getLogger(__name__)
 
@@ -21,6 +22,7 @@ logger = logging.getLogger(__name__)
 def register_all_middlewares(dp, config):
     dp.setup_middleware(EnvironmentMiddleware(config=config))
     dp.setup_middleware(BigBrother())
+    dp.setup_middleware(ThrotlingMiddleware())
 
 
 def register_all_filters(dp):

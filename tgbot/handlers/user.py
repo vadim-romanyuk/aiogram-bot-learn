@@ -7,12 +7,14 @@ from aiogram.types import Message
 
 from tgbot.filters.private_chat import IsPrivate
 from tgbot.filters.test_filter import SomeF
+from tgbot.misc.throttling import rate_limit
 
 
 async def user_filter(message: Message):
     await message.reply("It's filter private")
 
 
+@rate_limit(5, key="start")
 async def user_start(message: Message, middleware_data, from_filter):
     await message.answer(f"Hello, {message.from_user.full_name}\n{middleware_data=}\n{from_filter=}")
     logging.info(f"6. Handler")
