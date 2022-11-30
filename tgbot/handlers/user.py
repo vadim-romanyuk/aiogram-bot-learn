@@ -47,6 +47,11 @@ async def user_settings(message: Message):
     await message.answer(f"{username} ты нажал НАСТРОЙКИ")
 
 
+
+
+
+
+
 def register_user(dp: Dispatcher):
 
     dp.register_message_handler(user_filter, IsPrivate(), text='123', state="*")

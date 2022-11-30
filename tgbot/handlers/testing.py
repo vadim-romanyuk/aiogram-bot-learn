@@ -28,7 +28,8 @@ async def answer_q2(message: types.Message, state: FSMContext):
     await message.answer('Спасибо за ответы')
     await message.answer(f"ответ 1: {answer1}")
     await message.answer(f"ответ 2: {answer2}")
-    await state.finish()
+    # await state.finish()
+    await state.reset_state(with_data=True)
 
 
 def register_testing(dp: Dispatcher):
