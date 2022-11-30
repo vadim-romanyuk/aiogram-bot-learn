@@ -15,6 +15,7 @@ class ThrotlingMiddleware(BaseMiddleware):
         self.limit = limit
         self.prefix = key_prefix
         super(ThrotlingMiddleware, self).__init__()
+
     async def throttle(self, target: Union[types.Message, types.CallbackQuery]):
         handler = current_handler.get()
         if handler is None:

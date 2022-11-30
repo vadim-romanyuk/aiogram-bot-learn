@@ -7,9 +7,7 @@ from aiogram.dispatcher.middlewares import BaseMiddleware
 from tgbot.config import banned_users
 
 
-async def on_post_process_update(update: types.Update, data_from_handler: list, data: dict):
-    logging.info(f"8. Post Process Update, {data=}, {data_from_handler=}")
-    logging.info("[----------------Выход----------------]")
+
 
 
 class BigBrother(BaseMiddleware):
@@ -56,4 +54,9 @@ class BigBrother(BaseMiddleware):
         logging.info("Следующая точка: Post Process Update")
 
     # 8
+    async def on_post_process_update(self, update: types.Update, data_from_handler: list, data: dict):
+        logging.info(f"8. Post Process Update, {data=}, {data_from_handler=}")
+        logging.info("[----------------Выход----------------]")
 
+    async def on_pre_process_callback_query(self, cq: types.CallbackQuery, data: dict):
+        await cq.answer()

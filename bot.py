@@ -11,18 +11,24 @@ from tgbot.filters.private_chat import IsPrivate
 from tgbot.handlers.admin import register_admin
 from tgbot.handlers.echo import register_echo
 from tgbot.handlers.user import register_user
+from tgbot.handlers.acl_test import register_acl_test
 from tgbot.handlers.testing import register_testing
 from tgbot.middlewares.environment import EnvironmentMiddleware
 from tgbot.middlewares.big_brother import BigBrother
 from tgbot.middlewares.thottling import ThrotlingMiddleware
+from tgbot.middlewares.acl import ACLMiddleware
+from tgbot.middlewares.sentinel import Sentinel
 
 logger = logging.getLogger(__name__)
 
 
 def register_all_middlewares(dp, config):
     dp.setup_middleware(EnvironmentMiddleware(config=config))
+    dp.setup_middleware(ACLMiddleware())
     dp.setup_middleware(BigBrother())
     dp.setup_middleware(ThrotlingMiddleware())
+    dp.setup_middleware(Sentinel())
+
 
 
 def register_all_filters(dp):
@@ -34,6 +40,7 @@ def register_all_handlers(dp):
     register_admin(dp)
     register_user(dp)
     register_testing(dp)
+    register_acl_test(dp)
 
     register_echo(dp)
 
