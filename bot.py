@@ -5,20 +5,21 @@ from aiogram import Bot, Dispatcher
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.contrib.fsm_storage.redis import RedisStorage2
 
-from tgbot.config import load_config, TgBot, Config
+from tgbot.config import load_config
 from tgbot.filters.admin import AdminFilter
 from tgbot.filters.private_chat import IsPrivate
-from tgbot.handlers.admin import register_admin, admin_start
-from tgbot.handlers.echo import register_echo
-from tgbot.handlers.user import register_user
 from tgbot.handlers.acl_test import register_acl_test
-from tgbot.handlers.testing import register_testing
+from tgbot.handlers.admin import register_admin
+from tgbot.handlers.echo import register_echo
 from tgbot.handlers.info_user import register_info_user
-from tgbot.middlewares.environment import EnvironmentMiddleware
-from tgbot.middlewares.big_brother import BigBrother
-from tgbot.middlewares.thottling import ThrotlingMiddleware
+from tgbot.handlers.testing import register_testing
+from tgbot.handlers.user import register_user
 from tgbot.middlewares.acl import ACLMiddleware
+from tgbot.middlewares.big_brother import BigBrother
+from tgbot.middlewares.environment import EnvironmentMiddleware
 from tgbot.middlewares.sentinel import Sentinel
+from tgbot.middlewares.thottling import ThrotlingMiddleware
+from tgbot.notify_admins import on_startup_notify
 
 logger = logging.getLogger(__name__)
 
@@ -46,16 +47,6 @@ def register_all_handlers(dp):
     register_echo(dp)
 
 
-async def on_startup_notify(dp: Dispatcher):
-    for admin in Config.tg_bot.admin_ids:
-        try:
-            text = 'Бот запущен и готов к работе'
-            await dp.bot.send_message(chat_id=admin, text=text)
-        except Exception as err:
-            logging.exception(err)
-
-
-
 async def main():
     logging.basicConfig(
         level=logging.INFO,
@@ -63,7 +54,6 @@ async def main():
     )
     logger.info("Starting bot")
     config = load_config(".env")
-
 
     storage = RedisStorage2() if config.tg_bot.use_redis else MemoryStorage()
     bot = Bot(token=config.tg_bot.token, parse_mode='HTML')
@@ -77,18 +67,14 @@ async def main():
 
     # start
     try:
+        await on_startup_notify(dp)
         await dp.skip_updates()
         await dp.start_polling()
+
     finally:
         await dp.storage.close()
         await dp.storage.wait_closed()
         await bot.session.close()
-
-
-
-
-
-
 
 
 if __name__ == '__main__':
