@@ -28,7 +28,7 @@ logger = logging.getLogger(__name__)
 def register_all_middlewares(dp, config):
     dp.setup_middleware(EnvironmentMiddleware(config=config))
     dp.setup_middleware(ACLMiddleware())
-    dp.setup_middleware(BigBrother())
+    # dp.setup_middleware(BigBrother())
     dp.setup_middleware(ThrotlingMiddleware())
     dp.setup_middleware(Sentinel())
 
