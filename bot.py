@@ -14,9 +14,10 @@ from tgbot.handlers.echo import register_echo
 from tgbot.handlers.info_user import register_info_user
 from tgbot.handlers.testing import register_testing
 from tgbot.handlers.user import register_user
-from tgbot.handlers.menu import register_menu
+# from tgbot.handlers.menu import register_menu
 # from tgbot.handlers.catch_media import register_catch_media
 from tgbot.handlers.task_3_handler import register_show_menu_task_3
+from tgbot.handlers.task_3_1_handler import register_show_menu_task_3_1
 from tgbot.middlewares.acl import ACLMiddleware
 from tgbot.middlewares.big_brother import BigBrother
 from tgbot.middlewares.environment import EnvironmentMiddleware
@@ -46,9 +47,10 @@ def register_all_handlers(dp):
     register_testing(dp)
     register_acl_test(dp)
     register_info_user(dp)
-    register_menu(dp)
+    # register_menu(dp)
     # register_catch_media(dp)
     register_show_menu_task_3(dp)
+    register_show_menu_task_3_1(dp)
 
     register_echo(dp)
 
