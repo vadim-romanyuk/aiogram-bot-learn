@@ -10,7 +10,7 @@ task_3_1_kb_in = InlineKeyboardMarkup(row_width=2,
                                               InlineKeyboardButton(
                                                   text="Купить товар",
                                                   callback_data=buys_callback.new(item_id='1',
-                                                                                  item_name='1')
+                                                                                  item_name='яблоко')
                                               )
                                           ],
                                           [
