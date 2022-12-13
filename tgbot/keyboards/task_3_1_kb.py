@@ -3,7 +3,7 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 from tgbot.keyboards.callback_datas import buys_callback, down_callback, up_callback, sell_callback
 
-
+# функция клавиатуры, для выдачи переменной
 def buy_keyboard(item_id):
     task_3_1_kb_in = InlineKeyboardMarkup(row_width=2,
                                           inline_keyboard=[
@@ -38,3 +38,7 @@ def buy_keyboard(item_id):
                                               ],
                                           ])
     return task_3_1_kb_in
+
+
+
+

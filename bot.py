@@ -11,6 +11,7 @@ from tgbot.filters.private_chat import IsPrivate
 from tgbot.handlers.acl_test import register_acl_test
 from tgbot.handlers.admin import register_admin
 from tgbot.handlers.echo import register_echo
+from tgbot.handlers.group_approval import register_group_approval
 from tgbot.handlers.info_user import register_info_user
 from tgbot.handlers.testing import register_testing
 from tgbot.handlers.user import register_user
@@ -24,6 +25,7 @@ from tgbot.middlewares.environment import EnvironmentMiddleware
 from tgbot.middlewares.sentinel import Sentinel
 from tgbot.middlewares.thottling import ThrotlingMiddleware
 from tgbot.notify_admins import on_startup_notify
+from tgbot.services.setting_commands import set_default_commands, force_reset_all_commands
 
 logger = logging.getLogger(__name__)
 
@@ -47,12 +49,18 @@ def register_all_handlers(dp):
     register_testing(dp)
     register_acl_test(dp)
     register_info_user(dp)
+    register_group_approval(dp)
     # register_menu(dp)
     # register_catch_media(dp)
     register_show_menu_task_3(dp)
     register_show_menu_task_3_1(dp)
 
     register_echo(dp)
+
+
+async def set_all_default_commands(bot):
+    # await force_reset_all_commands(bot)
+    await set_default_commands(bot)
 
 
 async def main():
@@ -72,6 +80,8 @@ async def main():
     register_all_middlewares(dp, config)
     register_all_filters(dp)
     register_all_handlers(dp)
+
+    await set_all_default_commands(bot)
 
     # start
     try:
