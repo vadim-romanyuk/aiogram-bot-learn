@@ -3,6 +3,7 @@ import logging
 from aiogram import Dispatcher
 
 from tgbot.config import Config
+from tgbot.utils.db_api.postgresql import Database
 
 
 async def on_startup_notify(dp: Dispatcher):

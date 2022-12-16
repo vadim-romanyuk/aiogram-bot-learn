@@ -5,6 +5,7 @@ from aiogram import Dispatcher, types
 from aiogram.dispatcher.filters import CommandStart
 from aiogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, BotCommandScopeChat
 from aiogram.utils.markdown import quote_html
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from tgbot.filters.private_chat import IsPrivate
 from tgbot.filters.test_filter import SomeF
@@ -12,14 +13,35 @@ from tgbot.misc.throttling import rate_limit
 from tgbot.models.models import User
 from tgbot.services.setting_commands import set_starting_commands
 
+from tgbot.infrastucture.database.functions.users import create_user
+from tgbot.infrastucture.database.models.users import User
+
 
 async def user_filter(message: Message):
     await message.reply("It's filter private")
 
 
-async def user_start(message: Message):
-    await message.reply("hi")
-    await set_starting_commands(message.bot, message.from_user.id)
+async def user_start(message: Message, session: AsyncSession):
+    user = await session.get(User, message.from_user.id)
+
+    if not user:
+        await create_user(
+            session,
+            telegram_id=message.from_user.id,
+            full_name=message.from_user.full_name,
+            username=message.from_user.username,
+            language_code=message.from_user.language_code,
+        )
+        await session.commit()
+
+    user = await session.get(User, message.from_user.id)
+    user_info = (f"{user.full_name} (@{user.username}).\n"
+                 f"Language: {user.language_code}.\n"
+                 f"Created at: {user.created_at}.")
+
+    await message.reply("Hello, user. \n"
+                        "Your info is here: \n\n"
+                        f"{user_info}")
 
 
 async def message_get_commands(message: Message):
