@@ -15,14 +15,31 @@ from tgbot.services.setting_commands import set_starting_commands
 
 from tgbot.infrastucture.database.functions.users import create_user
 from tgbot.infrastucture.database.models.users import User
+from sqlalchemy import func, select
 
 
 async def user_filter(message: Message):
     await message.reply("It's filter private")
 
 
+# async def count_users(session: AsyncSession):
+#     result = await session.execute(select(func.count(User.telegram_id)))
+#     count = await result.scalar()
+#     print(count)
+
+
 async def user_start(message: Message, session: AsyncSession):
     user = await session.get(User, message.from_user.id)
+    result = await session.execute(select(func.count(User.telegram_id)))
+    count = result.scalar()
+    query = await session.execute(select(User))
+    users = query.scalars().all()
+    for user in users:
+        a = user.telegram_id
+        # print(a)
+
+
+
 
     if not user:
         await create_user(
@@ -37,7 +54,9 @@ async def user_start(message: Message, session: AsyncSession):
     user = await session.get(User, message.from_user.id)
     user_info = (f"{user.full_name} (@{user.username}).\n"
                  f"Language: {user.language_code}.\n"
-                 f"Created at: {user.created_at}.")
+                 f"Created at: {user.created_at}.\n"
+                 f"В базе {count}\n"
+                 f" {user.telegram_id}.\n")
 
     await message.reply("Hello, user. \n"
                         "Your info is here: \n\n"

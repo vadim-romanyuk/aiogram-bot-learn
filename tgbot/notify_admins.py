@@ -2,8 +2,8 @@ import logging
 
 from aiogram import Dispatcher
 
-from tgbot.config import Config
-from tgbot.utils.db_api.postgresql import Database
+from tgbot.config import Config, DbConfig
+from tgbot.infrastucture.database.functions.setup import create_session_pool
 
 
 async def on_startup_notify(dp: Dispatcher):
@@ -14,3 +14,7 @@ async def on_startup_notify(dp: Dispatcher):
             await dp.bot.send_message(chat_id=admin, text=text)
         except Exception as err:
             logging.exception(err)
+
+
+
+

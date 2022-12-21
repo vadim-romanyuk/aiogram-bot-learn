@@ -6,7 +6,7 @@ from sqlalchemy import pool
 from sqlalchemy.engine.url import URL
 
 from tgbot.infrastucture.database.models.base import Base
-from tgbot.infrastucture.database import *
+
 
 
 # this is the Alembic Config object, which provides
