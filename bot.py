@@ -94,7 +94,6 @@ async def main():
     bot = Bot(token=config.tg_bot.token, parse_mode='HTML')
     dp = Dispatcher(bot, storage=storage)
     bot['config'] = config
-    logger.info("Подключение к базе данных")
     session_pool = create_session_pool(config.db)
 
     register_all_middlewares(dp, config, session_pool)

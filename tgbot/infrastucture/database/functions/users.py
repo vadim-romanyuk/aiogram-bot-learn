@@ -1,5 +1,6 @@
-from sqlalchemy import insert, select
+from sqlalchemy import insert, select, update
 from sqlalchemy.orm import aliased, join
+
 
 from tgbot.infrastucture.database.models.users import User
 
@@ -13,6 +14,17 @@ async def create_user(session, telegram_id, full_name, username, language_code, 
         referrer_id=referrer_id,
     )
     await session.execute(stmt)
+
+
+async def update_user(session, telegram_id, username, ):
+    stmt = update(User).where(User.telegram_id == telegram_id).values(username=username)
+    await session.execute(stmt)
+
+
+# async def select_test(session):
+#     stmt = select(User).where(User.telegram_id.in_(['21']))
+#     for user in session.scalars(stmt):
+#         return user
 
 
 async def select_users_with_referrer(session):

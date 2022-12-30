@@ -10,3 +10,7 @@ class UserInfo(StatesGroup):
     Name = State()
     Email = State()
     Phone = State()
+
+
+class UserAnswers(StatesGroup):
+    Answer = State()
