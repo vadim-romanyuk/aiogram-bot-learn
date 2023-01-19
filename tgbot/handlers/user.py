@@ -54,7 +54,8 @@ async def user_start(message: Message, session: AsyncSession):
                         f"{user_info}")
 
 
-async def update_username(message: Message):
+async def update_username(message: Message,):
+
     await message.answer(f"введи новое имя, твое текущее имя  <b>{message.from_user.username}</b>")
     await UserAnswers.Answer.set()
 
