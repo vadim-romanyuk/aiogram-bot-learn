@@ -54,9 +54,9 @@ async def user_start(message: Message, session: AsyncSession):
                         f"{user_info}")
 
 
-async def update_username(message: Message,):
-
-    await message.answer(f"введи новое имя, твое текущее имя  <b>{message.from_user.username}</b>")
+async def update_username(message: Message, session: AsyncSession):
+    user = await session.get(User, message.from_user.id)
+    await message.answer(f"введи новое имя, твое текущее имя  <b>{user.username}</b>")
     await UserAnswers.Answer.set()
 
 
@@ -124,10 +124,16 @@ async def user_settings(message: Message):
     await message.answer(f"{username} ты нажал НАСТРОЙКИ")
 
 
-async def show_profile(message: Message):
-    user = select_user(User, message.from_user.id)
-    await message.answer(f"{user.full_name}\n"
-                         f"{user.telegram_id}")
+async def show_profile(message: Message, session: AsyncSession):
+    # user = select_user(User, message.from_user.id)
+    # await message.answer(f"{user.full_name}\n"
+    #                      f"{user.telegram_id}")
+    user = await session.get(User, message.from_user.id)
+    await message.answer(f"Твое имя: <b>{user.username}</b>\n"
+                         f"Твое ID: <b>{user.telegram_id}</b>\n"
+                         f"Твое полное имя: <b>{user.full_name}</b>"
+                         )
+
 
 
 def register_user(dp: Dispatcher):

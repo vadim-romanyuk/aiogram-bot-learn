@@ -39,4 +39,3 @@ services:
 networks:
   botnet:
     driver: bridge
-

@@ -51,7 +51,7 @@ def register_all_filters(dp):
 
 
 def register_all_handlers(dp):
-    register_admin(dp)
+    # register_admin(dp)
     register_user(dp)
     register_testing(dp)
     register_acl_test(dp)
